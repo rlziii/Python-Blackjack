@@ -205,8 +205,11 @@ def print_header():
     print()
 
 def play_again_prompt() -> bool:
-    user_input = input("Play again (Y/n)? ")
-    return user_input in {"Y", "y", ""}
+    try:
+        user_input = input("Play again (Y/n)? ")
+        return user_input in {"Y", "y", ""}
+    except KeyboardInterrupt:
+        return False
 
 def main():
     continue_playing = True
@@ -218,6 +221,8 @@ def main():
             print("You bust: game over!")
         except DealerBustException:
             print("Dealer bust: you win!")
+        except KeyboardInterrupt:
+            continue_playing = False
         finally:
             continue_playing = play_again_prompt()
             if continue_playing:
